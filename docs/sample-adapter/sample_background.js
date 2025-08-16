@@ -5,7 +5,7 @@ const MSG_LOOKUP = "scryhub.adapter.lookup";
 
 const supportedStores = [
     {
-        id: 'scryhub-sample-store', name: 'Scryhub Sample Rickroll'
+        key: 'scryhub-sample-store', name: 'Scryhub Sample Rickroll'
     }
 ]
 
@@ -26,7 +26,7 @@ const supportedStores = [
  *   url: string,
  *   price?: Money,
  *   availability?: ("in_stock"|"out_of_stock"|"unknown")
- * }} [product]
+ * }} [card]
  *   Product details (only present when `found === true`).
  */
 
@@ -34,14 +34,15 @@ const supportedStores = [
 /**
  * This is where you'd do your logic on a site/store api to lookup data about the card
  * @param {string} cardName the name of the card
- * @param {*} opts any options passed in
  * @return {LookupResult} a lookup result
  */
-async function lookupCard(cardName, opts) {
-    console.log('[ScryHub Sample]', 'Lookup: ', cardName);
+async function lookupCard(descriptor) {
+    console.log('[ScryHub Sample]', 'Lookup: ', descriptor);
+
+    const cardName = descriptor.name;
     return {
         found: true,
-        product: {
+        card: {
             title: 'Rick Astley - '+ cardName,
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             price: {
@@ -68,14 +69,15 @@ chrome.runtime.onMessageExternal.addListener((msg, _sender, sendResponse) => {
 
         if (msg?.type === MSG_LOOKUP) {
             // these keys should be here
-            const { storeKey, cardName, opts } = msg;
+            const { storeKey, descriptor, opts } = msg;
 
             try {
-                const result = await lookupCard(cardName, opts);
+                const result = await lookupCard(descriptor);
                 // answer with the store that we "looked up" the card in
-                sendResponse({ ok: true, result, storeMeta: storeKey });
+                sendResponse({ ok: true, result, storeKey: storeKey });
             } catch (e) {
-                sendResponse({ ok: false, error: String(e) });
+                console.log('[Scryhub Sample] errored', e);
+                sendResponse({ ok: false });
             }
             return;
         }

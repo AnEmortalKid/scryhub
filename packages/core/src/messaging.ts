@@ -1,4 +1,4 @@
-import { MSG_LOOKUP, MSG_LIST_STORES, type CardLookupReq, type CardLookupResp, ProtocolCheckReq, ProtocolCheckResp, MSG_PROTOCOL_CHECK, ListStoresReq, ListStoresResp } from "@scryhub/protocol";
+import { MSG_LOOKUP, MSG_LIST_STORES, type CardLookupReq, type CardLookupResp, ProtocolCheckReq, ProtocolCheckResp, MSG_PROTOCOL_CHECK, ListStoresReq, ListStoresResp, CardLookupDescriptor } from "@scryhub/protocol";
 
 /**
  * Result envelope to have stronger typings
@@ -95,7 +95,7 @@ export function listStores(libraryId: string): Promise<Result<ListStoresResp>> {
  * @param opts additional params
  * @returns the response with the result of the lookup
  */
-export function lookupCard(libraryId: string, storeKey: string, cardName: string, opts?: any): Promise<Result<CardLookupResp>> {
-  const request: CardLookupReq = { type: MSG_LOOKUP, storeKey, cardName };
+export function lookupCard(libraryId: string, storeKey: string, descriptor: CardLookupDescriptor): Promise<Result<CardLookupResp>> {
+  const request: CardLookupReq = { type: MSG_LOOKUP, storeKey, descriptor };
   return sendToLibraryExtension<CardLookupReq>(libraryId, request);
 }
