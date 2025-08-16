@@ -1,0 +1,25 @@
+{
+  "name": "@scryhub/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@scryhub/protocol": "0.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/chrome": "0.1.4",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.46.2",
+    "tslib": "^2.6.2"
+  },
+  "scripts": {
+    "clean": "rimraf build",
+    "build:code": "rollup -c",
+    "build:assets": "node -e \"require('fs').cpSync('public','build',{recursive:true})\"",
+    "build": "npm run clean && npm run build:code && npm run build:assets",
+    "watch": "rollup -c -w"
+  }
+}

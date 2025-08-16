@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "declaration": false,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "types": [
+      "chrome"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}
