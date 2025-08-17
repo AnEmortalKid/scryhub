@@ -12,9 +12,9 @@ will simply ask you to search for a card on it's behalf.
 At a minimum, your adapter must implement 2 messages:
 
 
-## scryhub.adapter.listStores
+## scryhub.library.listStores
 
-The `scryhub.adapter.listStores` request is used to tell ScryHub what store's your adapter can lookup information in.
+The `scryhub.library.listStores` request is used to tell ScryHub what store's your adapter can lookup information in.
 
 You should respond with metadata about at least 1 game store your adapter can handle:
 
@@ -27,9 +27,9 @@ You should respond with metadata about at least 1 game store your adapter can ha
 
 TODO sample handler
 
-## scryhub.adapter.lookup
+## scryhub.library.lookupCard
 
-The `scryhub.adapter.lookup` is used to lookup availability and pricing information for a particular card, at a given store.
+The `scryhub.library.lookupCard` is used to lookup availability and pricing information for a particular card, at a given store.
 
 TODO request, response
 

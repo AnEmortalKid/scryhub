@@ -1,7 +1,5 @@
-
-
-const MSG_LIST_STORES = "scryhub.adapter.listStores";
-const MSG_LOOKUP = "scryhub.adapter.lookup";
+const MSG_LIST_STORES = "scryhub.library.listStores";
+const MSG_LOOKUP = "scryhub.library.lookupCard";
 
 const supportedStores = [
     {
