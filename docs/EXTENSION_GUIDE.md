@@ -144,6 +144,7 @@ Test it out via the following:
 
 1. Load your extension as an `unpacked` extension
 2. Select the `service worker` for `ScryHub` via "Inspect Views, service worker"
+3. Run this in the developer console
 ```javascript
 const libraryId = "<your extension id from the page>";
 chrome.runtime.sendMessage(libraryId, { type: "scryhub.library.listStores" }, console.log);
@@ -331,6 +332,7 @@ Test it out via the following:
 
 1. Load your extension as an `unpacked` extension
 2. Select the `service worker` for `ScryHub` via "Inspect Views, service worker"
+3. Run this in the developer console
 ```javascript
 const libraryId = "<your extension id from the page>";
 chrome.runtime.sendMessage(libraryId, 

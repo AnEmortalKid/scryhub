@@ -3,7 +3,7 @@
 `ScryHub` expects _other_ chrome extensions to be responsible for looking up information from a store, for a few reasons:
 
 1. Trying to manage a large inventory of stores could get unwieldy quickly
-2. Supporting new stores could become the bottle neck for usage
+2. Supporting new stores could become the bottleneck for usage
 
 `ScryHub` was designed to let _anyone_ implement an `LGSLibrary` that provides info for their local game store. 
 
