@@ -1,5 +1,7 @@
 # ScryHub
 
+![](./logos/logo_cutout.svg) 
+
 A chrome extension that enhances Scryfall with buttons to purchase cards from your preferred Local game Store
 
 ![](./docs/imgs/scryhub_overview.png)
