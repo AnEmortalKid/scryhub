@@ -353,11 +353,11 @@ console.log);
 You should see it print the card info!
 
 
-## Hooking up our extension to
+## Hooking up our extension to ScryHub
 
 Once your extension is working, it is time to connect it to `ScryHub`.
 
-1. From `chrome://extensions/` , find `ScryHub`
+1. From `chrome://extensions/`, find `ScryHub`
 2. From the `Details` section, find the `Extension Options` tab
 3. On the options page, you should be albe to add your extension via ID
 ![](./imgs/options_add_library.png)
