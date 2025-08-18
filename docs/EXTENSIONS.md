@@ -23,7 +23,7 @@ The library has two responsibilities:
 1. Tell `ScryHub` what `LGSProvider`(s) this library can get information for
 2. Retrieve information from a specific `LGSProvider` when `ScryHub` requests it
 
-`ScryHub` will communicate using the `chrome.runtime.sendMessage` and send direct RPC calls to your Library.
+`ScryHub` will communicate using the `chrome.runtime.sendMessage` protocol and send direct RPC calls to your Library.
 
 ## LGS Provider
 
@@ -52,7 +52,7 @@ class MyLgsProvider {
                     url: 'linkToBuyHere',
                     price: {
                         amount: 0.99,
-                        currency: 'usd'
+                        currency: 'USD'
                     },
                     availability: "in_stock"
                 }
@@ -61,6 +61,4 @@ class MyLgsProvider {
 }
 ```
 
-## Steps
-
-These steps will guide you in making your own extension and hookup your LGS on Scryfall.
+See [Make Your Own Extension](./EXTENSION_GUIDE.md) for steps on how to make and use your own.

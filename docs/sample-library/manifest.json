@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "ScryHub LGS Library Sample",
+    "version": "0.1.0",
+    "description": "Provides LGS lookups to ScryHub.",
+    "host_permissions": [
+        "https://*.examplelgs.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "externally_connectable": {
+        "ids": [
+            "fjnfckcanpoaehmcphhemfaloioijckl"
+        ]
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "logos/*"
+            ],
+            "matches": [
+                "https://scryfall.com/*"
+            ],
+            "extension_ids": [
+                "fjnfckcanpoaehmcphhemfaloioijckl"
+            ]
+        }
+    ]
+}

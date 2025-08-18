@@ -7,7 +7,6 @@ import { BaseOperationResponseFailure } from "./base";
  */
 export const MSG_PROTOCOL_CHECK = "scryhub.library.protocolCheck" as const;
 
-
 /**
  * Defines the request for the protocol check operation
  */

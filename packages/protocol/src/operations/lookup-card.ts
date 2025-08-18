@@ -93,7 +93,7 @@ export type FoundCardInformation = {
     /**
      * Availability of the card if the store lists stock/out-of-stock items
      */
-    availability?: "in_stock" | "out_of_stock" | "unknown";
+    availability: "in_stock" | "out_of_stock" | "unknown";
 }
 
 
