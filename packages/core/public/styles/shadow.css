@@ -137,6 +137,11 @@
     /* bottom-right corner */
 }
 
+.sh-loose {
+    border-color: var(--mismatch-accent-light);
+    color: var(--mismatch-accent-light);
+}
+
 .sh-logo {
     width: 32px;
     height: 32px;

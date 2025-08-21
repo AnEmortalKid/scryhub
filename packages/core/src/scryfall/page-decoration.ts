@@ -191,7 +191,7 @@ export function populateButtonSuccess(a: HTMLAnchorElement, priceEl: HTMLElement
   // based on confidence level style our pill
   if(cardAnswer.match === 'loose')
   {
-    a.classList.add('loose');
+    a.classList.add('sh-loose');
   }
 
   // price

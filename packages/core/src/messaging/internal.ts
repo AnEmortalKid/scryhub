@@ -16,7 +16,7 @@ export const SCRYHUB_LOOKUP_CARD = "hub.lookupSpecific";
 export const SCRYHUB_LIST_STORES = "hub.getLibraryStores";
 
 /**
- * Message type for our content/options pages to check protocol versions for all libraries
+ * Message type for our content/options pages to check protocol versions for a specific
  */
 export const SCRYHUB_CHECK_LIBRARY_COMPAT = "hub.libraryProtocolCheck";
 
@@ -123,6 +123,7 @@ export async function lookupCardFromLibraryAndStore(
 
 /**
  * Retrieves store information from a library
+ * 
  * @param libraryId the id of the library
  * @returns a result envelope with the response for looking up the stores
  */

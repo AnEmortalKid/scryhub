@@ -97,7 +97,14 @@ function createElement(tag, attributes = {}, children = []) {
   return node;
 }
 
+// needs the libraries
+// needs to add a library
+// needs to remove a library
+// needs to get stores
 async function render() {
+  // STORED libraries
+  // Render ALWAYS operates on the stored library information to render
+  // Then it uses RPCS to update stuff instead of saving data itself (i think that works)
   const { providers } = await getSettings();
   $providers.innerHTML = "";
 
