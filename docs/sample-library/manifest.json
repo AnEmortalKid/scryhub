@@ -13,18 +13,5 @@
         "ids": [
             "fjnfckcanpoaehmcphhemfaloioijckl"
         ]
-    },
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "logos/*"
-            ],
-            "matches": [
-                "https://scryfall.com/*"
-            ],
-            "extension_ids": [
-                "fjnfckcanpoaehmcphhemfaloioijckl"
-            ]
-        }
-    ]
+    }
 }

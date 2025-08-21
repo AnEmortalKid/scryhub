@@ -16,6 +16,7 @@
   "scripts": {
     "build": "npm run build -w @scryhub/protocol && npm run build -w @scryhub/core",
     "build:core": "npm run build -w @scryhub/core",
+    "build:core-assets": "npm run build:assets -w @scryhub/core",
     "clean": "rimraf packages/*/dist packages/*/build"
   }
 }

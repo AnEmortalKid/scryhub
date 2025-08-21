@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   role="img"
+   aria-labelledby="title desc"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="logo_cutout.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="3.1484375"
+     inkscape:cx="39.861042"
+     inkscape:cy="83.851117"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3"
+     showguides="true">
+    <sodipodi:guide
+       position="64,64"
+       orientation="0,-1"
+       id="guide1"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="64,108"
+       orientation="1,0"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="22.15,77.599998"
+       orientation="0,-1"
+       id="guide3"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="89.86,28.4"
+       orientation="0,-1"
+       id="guide6"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="22.15,77.6"
+       orientation="1,0"
+       id="guide7"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="38.14,28.4"
+       orientation="1,0"
+       id="guide8"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="105.85,77.6"
+       orientation="1,0"
+       id="guide9"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="89.86,28.4"
+       orientation="1,0"
+       id="guide10"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="64,108"
+       orientation="0,-1"
+       id="guide11"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <title
+     id="title">ScryHub Core — Purple Outlined Orbs</title>
+  <desc
+     id="desc">Purple badge with orbit and pentagon, five colored orbs with purple outlines, and central hub.</desc>
+  <!-- Purple badge -->
+  <!-- Orbit + Pentagon -->
+  <!-- Colored orbs with purple cutout stroke -->
+  <!-- Yellow -->
+  <!-- Blue -->
+  <!-- Soft Black -->
+  <!-- Red -->
+  <!-- Green -->
+  <!-- Hub -->
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Logo-Cutouts-Purple"
+     style="display:inline">
+    <g
+       inkscape:groupmode="layer"
+       id="layer4"
+       inkscape:label="background">
+      <rect
+         x="4"
+         y="4"
+         width="120"
+         height="120"
+         rx="24"
+         ry="24"
+         fill="#5a4a83"
+         id="rect1" />
+    </g>
+    <circle
+       cx="64"
+       cy="64"
+       r="44"
+       fill="none"
+       stroke="#e0daf4"
+       stroke-width="3"
+       opacity="0.9"
+       id="circle1" />
+    <g
+       inkscape:groupmode="layer"
+       id="layer5"
+       inkscape:label="outerlines">
+      <path
+         d="M 64,20 105.85,50.4 89.86,99.6 H 38.14 L 22.15,50.4 Z"
+         fill="none"
+         stroke="#e0daf4"
+         stroke-width="2.5"
+         stroke-linejoin="round"
+         opacity="0.95"
+         id="path1"
+         style="display:inline" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer3"
+       inkscape:label="manaballs"
+       style="display:inline">
+      <ellipse
+         cx="38.139999"
+         cy="99.599998"
+         fill="#d12f26"
+         stroke="#5a4a83"
+         stroke-width="3"
+         id="circle5-0"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
+         cx="89.860001"
+         cy="99.599998"
+         fill="#333333"
+         stroke="#5a4a83"
+         stroke-width="3"
+         id="circle4-6"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
+         cx="105.85"
+         cy="50.400002"
+         fill="#1a78ae"
+         stroke="#5a4a83"
+         stroke-width="3"
+         id="circle3-0"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
+         cx="64"
+         cy="20"
+         fill="#f5e14b"
+         stroke="#5a4a83"
+         stroke-width="3"
+         id="circle2-4"
+         style="display:inline;fill:#c9a74c;fill-opacity:1"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
+         cx="22.150002"
+         cy="50.400002"
+         fill="#00733e"
+         stroke="#5a4a83"
+         stroke-width="3"
+         id="circle6-1"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="layer2"
+       inkscape:label="Hub">
+      <circle
+         cx="64"
+         cy="64"
+         fill="none"
+         stroke="#e0daf4"
+         stroke-width="3"
+         opacity="0.8"
+         id="circle8"
+         r="11" />
+      <circle
+         cx="64"
+         cy="64"
+         r="6"
+         fill="#e0daf4"
+         id="circle7" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g17"
+     inkscape:label="Logo-Sample-GrayBlue"
+     sodipodi:insensitive="true"
+     style="display:none">
+    <g
+       inkscape:groupmode="layer"
+       id="g2"
+       inkscape:label="background">
+      <rect
+         x="4"
+         y="4"
+         width="120"
+         height="120"
+         rx="24"
+         ry="24"
+         fill="#5A4A83"
+         id="rect2"
+         style="fill:#4a7283;fill-opacity:1" />
+    </g>
+    <circle
+       cx="64"
+       cy="64"
+       r="44"
+       fill="none"
+       stroke="#e0daf4"
+       stroke-width="3"
+       opacity="0.9"
+       id="circle9" />
+    <g
+       inkscape:groupmode="layer"
+       id="g9"
+       inkscape:label="outerlines">
+      <path
+         d="M 64,20 105.85,50.4 89.86,99.6 H 38.14 L 22.15,50.4 Z"
+         fill="none"
+         stroke="#e0daf4"
+         stroke-width="2.5"
+         stroke-linejoin="round"
+         opacity="0.95"
+         id="path9"
+         style="display:inline" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g14"
+       inkscape:label="manaballs"
+       style="display:inline">
+      <circle
+         cx="38.139999"
+         cy="99.599998"
+         r="7"
+         fill="#d12f26"
+         stroke="#5a4a83"
+         stroke-width="2"
+         id="circle10"
+         style="stroke:#4a7283;stroke-opacity:1" />
+      <circle
+         cx="89.860001"
+         cy="99.599998"
+         r="7"
+         fill="#333333"
+         stroke="#5a4a83"
+         stroke-width="2"
+         id="circle11"
+         style="stroke:#4a7283;stroke-opacity:1" />
+      <circle
+         cx="105.85"
+         cy="50.400002"
+         r="7"
+         fill="#1a78ae"
+         stroke="#5a4a83"
+         stroke-width="2"
+         id="circle12"
+         style="stroke:#4a7283;stroke-opacity:1" />
+      <circle
+         cx="64"
+         cy="20"
+         r="7"
+         fill="#f5e14b"
+         stroke="#5a4a83"
+         stroke-width="2"
+         id="circle13"
+         style="stroke:#4a7283;stroke-opacity:1" />
+      <circle
+         cx="22.15"
+         cy="50.400002"
+         r="7"
+         fill="#00733e"
+         stroke="#5a4a83"
+         stroke-width="2"
+         id="circle14"
+         style="stroke:#4a7283;stroke-opacity:1" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g16"
+       inkscape:label="Hub">
+      <circle
+         cx="64"
+         cy="64"
+         r="11"
+         fill="none"
+         stroke="#e0daf4"
+         stroke-width="3"
+         opacity="0.8"
+         id="circle15" />
+      <circle
+         cx="64"
+         cy="64"
+         r="6"
+         fill="#e0daf4"
+         id="circle16" />
+    </g>
+  </g>
+</svg>

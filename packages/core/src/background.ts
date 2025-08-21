@@ -1,6 +1,6 @@
-import { CardLookupResponse, ListStoresResponse } from "@scryhub/protocol";
-import { SCRYHUB_LIST_STORES, SCRYHUB_LOOKUP_CARD, ScryHubGetStoresMsg, ScryHubLookupCardMsg } from "./messaging/internal";
-import { listStores, lookupCard, Result } from "./messaging/library";
+import { CardLookupResponse, ListStoresResponse, ProtocolCheckResponse } from "@scryhub/protocol";
+import { SCRYHUB_CHECK_LIBRARY_COMPAT, SCRYHUB_LIST_STORES, SCRYHUB_LOOKUP_CARD, ScryHubCheckProtocolMsg, ScryHubGetStoresMsg, ScryHubLookupCardMsg } from "./messaging/internal";
+import { checkProtocol, listStores, lookupCard, Result } from "./messaging/library";
 
 
 /**
@@ -27,6 +27,16 @@ async function listStoresExternal(msg: ScryHubGetStoresMsg): Promise<Result<List
   return resp;
 }
 
+async function lookupProtocolExternal(msg: ScryHubCheckProtocolMsg): Promise<Result<ProtocolCheckResponse>> {
+  console.log('[ScryHub] check protocol:', msg);
+  const { libraryId } = msg;
+  const resp: Result<ProtocolCheckResponse> = await checkProtocol(libraryId);
+  console.log(`[ScryHub] received: `, resp);
+  return resp;
+}
+
+// TODO have background support a "UPDATE_COMPATS or CHECK_ALL_COMPATS"
+
 /**
  * Passthrough from content page to ask a provider (one store at a time) for data
  */
@@ -39,6 +49,10 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 
   (async () => {
     switch (msg.type) {
+      case SCRYHUB_CHECK_LIBRARY_COMPAT:
+        const compatEnvelope = await lookupProtocolExternal(msg as ScryHubCheckProtocolMsg);
+        sendResponse(compatEnvelope)
+        break;
       case SCRYHUB_LOOKUP_CARD:
         const lookupEnvelope = await lookupExternal(msg as ScryHubLookupCardMsg);
         sendResponse(lookupEnvelope);

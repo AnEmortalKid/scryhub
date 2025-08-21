@@ -24,15 +24,62 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="6.296875"
-     inkscape:cx="64"
-     inkscape:cy="64.158809"
+     inkscape:zoom="3.1484375"
+     inkscape:cx="39.861042"
+     inkscape:cy="83.851117"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g17" />
+     inkscape:current-layer="layer3"
+     showguides="true">
+    <sodipodi:guide
+       position="64,64"
+       orientation="0,-1"
+       id="guide1"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="64,108"
+       orientation="1,0"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="22.15,77.599998"
+       orientation="0,-1"
+       id="guide3"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="89.86,28.4"
+       orientation="0,-1"
+       id="guide6"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="22.15,77.6"
+       orientation="1,0"
+       id="guide7"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="38.14,28.4"
+       orientation="1,0"
+       id="guide8"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="105.85,77.6"
+       orientation="1,0"
+       id="guide9"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="89.86,28.4"
+       orientation="1,0"
+       id="guide10"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="64,108"
+       orientation="0,-1"
+       id="guide11"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
   <title
      id="title">ScryHub Core — Purple Outlined Orbs</title>
   <desc
@@ -50,7 +97,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Logo-Cutouts-Purple"
-     sodipodi:insensitive="true"
      style="display:inline">
     <g
        inkscape:groupmode="layer"
@@ -94,46 +140,56 @@
        id="layer3"
        inkscape:label="manaballs"
        style="display:inline">
-      <circle
+      <ellipse
          cx="38.139999"
          cy="99.599998"
-         r="7"
          fill="#d12f26"
          stroke="#5a4a83"
-         stroke-width="2"
-         id="circle5" />
-      <circle
+         stroke-width="3"
+         id="circle5-0"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
          cx="89.860001"
          cy="99.599998"
-         r="7"
          fill="#333333"
          stroke="#5a4a83"
-         stroke-width="2"
-         id="circle4" />
-      <circle
+         stroke-width="3"
+         id="circle4-6"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
          cx="105.85"
          cy="50.400002"
-         r="7"
          fill="#1a78ae"
          stroke="#5a4a83"
-         stroke-width="2"
-         id="circle3" />
-      <circle
+         stroke-width="3"
+         id="circle3-0"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
          cx="64"
          cy="20"
-         r="7"
          fill="#f5e14b"
          stroke="#5a4a83"
-         stroke-width="2"
-         id="circle2" />
-      <circle
-         cx="22.15"
+         stroke-width="3"
+         id="circle2-4"
+         style="display:inline;fill:#c9a74c;fill-opacity:1"
+         rx="10.5"
+         ry="10.499998" />
+      <ellipse
+         cx="22.150002"
          cy="50.400002"
-         r="7"
          fill="#00733e"
          stroke="#5a4a83"
-         stroke-width="2"
-         id="circle6" />
+         stroke-width="3"
+         id="circle6-1"
+         style="display:inline"
+         rx="10.5"
+         ry="10.499998" />
     </g>
     <g
        inkscape:groupmode="layer"
@@ -142,12 +198,12 @@
       <circle
          cx="64"
          cy="64"
-         r="11"
          fill="none"
          stroke="#e0daf4"
          stroke-width="3"
          opacity="0.8"
-         id="circle8" />
+         id="circle8"
+         r="11" />
       <circle
          cx="64"
          cy="64"

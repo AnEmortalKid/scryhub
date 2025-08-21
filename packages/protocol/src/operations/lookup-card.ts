@@ -7,6 +7,17 @@ import { BaseOperationResponseFailure } from "./base";
 export const MSG_LOOKUP = "scryhub.library.lookupCard" as const;
 
 /**
+ * The types of finish treatment available
+ */
+export type FinishTreatment = 'nonfoil' | 'foil';
+
+export type MatchQualification = 
+    // set code and number
+    'exact' | 
+    // possibly just by name so it may mismatch set/treatment
+    'loose';
+
+/**
  * Holds information about a card from ScryFall so an LGSProvider can properly search
  */
 export type CardLookupDescriptor = {
@@ -15,6 +26,13 @@ export type CardLookupDescriptor = {
      * Ex: "Yuna, Hope of Spira"
      */
     name: string;
+
+    /**
+     * Type of treatments found on the card, return all treatments possible even if not found,
+     * Guaranteed to not be empty, possibly just contains 'nonfoil' in most cases when a treatment
+     * could not be determined
+     */
+    finishTreatments: FinishTreatment[];
 
     /**
      * The title of the card computed by scryfall if we can find it, this often has the name, set and collector number
@@ -72,7 +90,6 @@ export type CardLookupResultNotFound = {
     found: false
 };
 
-
 /**
  * Container for the details of a card when it is found on the store
  */
@@ -81,10 +98,12 @@ export type FoundCardInformation = {
      * The name of the card
      */
     title: string;
+    
     /**
      * A url that points to where to buy the card
      */
     url: string;
+    
     /**
      * Price information if it could be retrieved
      */
@@ -94,6 +113,16 @@ export type FoundCardInformation = {
      * Availability of the card if the store lists stock/out-of-stock items
      */
     availability: "in_stock" | "out_of_stock" | "unknown";
+
+    /**
+     * The type of treatment on a card
+     */
+    finishTreatment: FinishTreatment;
+
+    /**
+     * Qualifies the result in terms of matching against a set/code , border level, etc.
+     */
+    match: MatchQualification;
 }
 
 
@@ -107,9 +136,10 @@ export type CardLoookupResultFound = {
     found: true,
 
     /**
-     * Information about the specific card
+     * Information about the specific treatment of the card, can return multiple
+     * if there are variants (foil/nonfoil)
      */
-    card: FoundCardInformation;
+    cards: FoundCardInformation[];
 }
 
 /**

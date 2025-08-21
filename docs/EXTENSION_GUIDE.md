@@ -30,10 +30,6 @@ Your manifest will define:
   * You should allowlist the extension id for `ScryHub` which you can find on the main README of the extension
 * A [`host_permissions`](https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions) declaration
   * This should have the hosts for the site you are providing information for, your extension will try to get data from this host
-* A [`web_accessible_resources`](https://developer.chrome.com/docs/extensions/reference/manifest/web-accessible-resources) declaration
-  * You should grant `Scryfall` access to your store's logo (if you want to display one on the scryfall page)
-  * You should grant `ScryHub` access to your store's logo (if you want to display one in the options page)
-    * You'll have to allowlist the extension id for `ScryHub` in the `extension_ids` array to allow this
 
 Your manifest would look something like this:
 
@@ -53,20 +49,7 @@ Your manifest would look something like this:
         "ids": [
             "<ScryHubCoreExtensionID>"
         ]
-    },
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "logos/*"
-            ],
-            "matches": [
-                "https://scryfall.com/*"
-            ],
-            "extension_ids": [
-                "<ScryHubCoreExtensionID>"
-            ]
-        }
-    ]
+    }
 }
 ```
 
@@ -83,7 +66,6 @@ The response to the `scryhub.library.listStores` message can return either a suc
 
 * `key`: a unique identifier within your library to distinguish it from other stores, within your library
 * `name`: A human displayable name to identify this store, this will show up next to the text "Buy at" on the scryfall website
-* `logoUrl`: _optional_ a `URL` to use when fetching the logo for this store, usually a `chrome.runtime.getURL("iconHere")` that serves a logo shipped with your extension.
 
 
 If you're returning an error, respond with:
@@ -105,8 +87,6 @@ If you're returning a success, respond with:
         {
             key: 'some-internal-key',
             name: 'a friendly name',
-            // optional logo
-            logoUrl: chrome.runtime.getURL("logos/sample_icon@64.png")
         }
     ]
 }
@@ -123,8 +103,7 @@ const MSG_LIST_STORES = "scryhub.library.listStores";
 
 const sampleStore = {
     key: 'sample-lgs-provider',
-    name: 'Sample LGS Provider',
-    logoUrl: chrome.runtime.getURL("logos/sample_icon@64.png")
+    name: 'Sample LGS Provider'
 }
 
 chrome.runtime.onMessageExternal.addListener((msg, sender, sendResponse) => {
@@ -287,8 +266,7 @@ const MSG_LOOKUP_CARD = "scryhub.library.lookupCard";
 
 const sampleStore = {
     key: 'sample-lgs-provider',
-    name: 'Sample LGS Provider',
-    logoUrl: chrome.runtime.getURL("logos/sample_icon@64.png")
+    name: 'Sample LGS Provider'
 }
 
 async function lookupCardFromSite(cardSearch) {

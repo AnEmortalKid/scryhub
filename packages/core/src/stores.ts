@@ -4,12 +4,23 @@
  */
 export type StoreEntry = { key: string; name: string; enabled: boolean; logoUrl?: string; logoSvg?: string };
 
+export type CompatibilityCache = {
+  /**
+   * Whether the library is compatible with the core's protocol or not
+   */
+  isCompatible: boolean;
+  /**
+   * When this was evaluated last
+   */
+  lastEvaluatedTime?: number;
+}
+
+
 export type LGSLibrary = {
   id: string;             // provider extension ID
   name?: string;          // friendly label you set
-  protocolVersion?: string;
-  capabilities?: string[];
   stores: StoreEntry[];
+  compatiblity?: CompatibilityCache;
 };
 export type Settings = { providers: LGSLibrary[] };
 

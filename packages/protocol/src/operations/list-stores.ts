@@ -30,12 +30,7 @@ export type StoreMeta = {
     /**
      * A human displayable name to identify this store, this will show up next to the text "Buy at" on the scryfall website
      */
-    name: string; 
-    
-    /**
-     * A url that can be used to fetch the logo for this store if it should be displayed
-     */
-    logoUrl?: string;
+    name: string;
 };
 
 /**

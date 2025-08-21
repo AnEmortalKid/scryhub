@@ -1,4 +1,4 @@
-import { CardLookupDescriptor } from "@scryhub/protocol";
+import { CardLookupDescriptor, FinishTreatment } from "@scryhub/protocol";
 
 
 /**
@@ -8,11 +8,15 @@ export function getCardDescriptor(): CardLookupDescriptor {
     const cardName = getDisplayedCardName();
     const setCodeAndCollector = getSetAndCollectorFromTable();
     const titleAndBorder = getTitleAndBorder();
+    const finishTreatments = getTreatmentsFromDetails();
+    // todo get border
 
     return {
         name: cardName,
+        finishTreatments,
+        // the optional fields here
         ...setCodeAndCollector,
-        ...titleAndBorder
+        ...titleAndBorder,
     };
 }
 
@@ -75,9 +79,11 @@ function getSetAndCollectorFromTable(): SetAndCollector {
         '.prints-table tr.current td a[href^="/card/"]'
     );
 
-    if (!currentRowLink) return {
-        setCode: undefined, collectorNumber: undefined
-    };
+    if (!currentRowLink) {
+        return {
+            setCode: undefined, collectorNumber: undefined
+        };
+    }
 
     const parts = currentRowLink.getAttribute('href')!.split('/');
     // /card/fin/404/yuna-hope-of-spira → ["", "card", "fin", "404", "yuna-hope-of-spira"]
@@ -85,4 +91,52 @@ function getSetAndCollectorFromTable(): SetAndCollector {
         setCode: parts[2].toUpperCase(),       // "FIN"
         collectorNumber: parts[3] // "404"
     };
+}
+
+/**
+ * Parses through the current set details to get the treatments for the card
+ */
+function getTreatmentsFromDetails(): FinishTreatment[] {
+    // Go from "#132 · Common · English · Nonfoil/Foil"
+    // To "Nonfoil"/Foil
+
+    const setDetailsSpan = document.querySelector<HTMLSpanElement>(
+        '.prints-current-set-details'
+    );
+
+    if (!setDetailsSpan) {
+        return ['nonfoil'];
+    }
+
+    // try to parse the treatments
+
+    const contents = setDetailsSpan.textContent
+        .replace(/\s+/g, ' ')     // collapse whitespace
+        .replace(/\s*<br>\s*$/i, '') // just in case innerHTML copied to textContent somewhere
+        .trim();
+
+    // split by the weird separator and take last and always trim
+    const last = (contents.split('·').pop() || '').trim();
+    // handle 'Nonfoil/Foil' and 'Nonfoil, foil' and 'nonfoil or foil'
+    const tokens = last.split(/\/|,|\bor\b/i).map(t => t.trim().toLowerCase());
+    // now test if we have "Nonfoil" and "Foil" in there
+    const seen = new Set<FinishTreatment>();
+    for (const tok of tokens) {
+        if (/\bnon[-\s]?foil\b|\bnormal\b/.test(tok)) {
+            seen.add('nonfoil');
+        }
+        else if (/\bfoil\b/.test(tok)) {
+            seen.add('foil');
+        }
+    }
+
+    let foundTreatments: FinishTreatment[] = [];
+    foundTreatments = [...seen];
+
+    // somehow empty, push nonfoil to find something
+    if (foundTreatments.length === 0) {
+        foundTreatments = ['nonfoil'];
+    }
+
+    return foundTreatments;
 }

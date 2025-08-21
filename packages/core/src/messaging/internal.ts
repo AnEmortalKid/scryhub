@@ -2,7 +2,7 @@
  * Holds functions to communicate within our extension, from the content page to the background worker
  */
 
-import { CardLookupDescriptor, CardLookupRequest, CardLookupResponse, CardLookupResult, ListStoresResponse } from "@scryhub/protocol";
+import { CardLookupDescriptor, CardLookupRequest, CardLookupResponse, CardLookupResult, ListStoresResponse, ProtocolCheckResponse } from "@scryhub/protocol";
 import { Result } from "./library";
 
 /**
@@ -14,6 +14,11 @@ export const SCRYHUB_LOOKUP_CARD = "hub.lookupSpecific";
  * Message type for our options page to ask for store info from an LGSLibrary via the service worker
  */
 export const SCRYHUB_LIST_STORES = "hub.getLibraryStores";
+
+/**
+ * Message type for our content/options pages to check protocol versions for all libraries
+ */
+export const SCRYHUB_CHECK_LIBRARY_COMPAT = "hub.libraryProtocolCheck";
 
 /**
  * Internal message type to request card info from a specific library and store
@@ -45,6 +50,20 @@ export type ScryHubGetStoresMsg = {
    * type of message to match
    */
   type: typeof SCRYHUB_LIST_STORES,
+  /**
+   * The identifier of the library (the chrome extension id to send messages to)
+   */
+  libraryId: string,
+}
+
+/**
+ * Internal message type to request store info from a specific library
+ */
+export type ScryHubCheckProtocolMsg = {
+  /**
+   * type of message to match
+   */
+  type: typeof SCRYHUB_CHECK_LIBRARY_COMPAT,
   /**
    * The identifier of the library (the chrome extension id to send messages to)
    */
@@ -117,4 +136,18 @@ export async function getLibraryStores(
   };
 
   return sendToCore<ListStoresResponse>(asInternalMessage);
+}
+
+/**
+ * Retrieves protocol information from a library
+ * @param libraryId the id of the library
+ * @returns a result envelope with the response for looking up the protocol
+ */
+export async function getLibraryProtocol(libraryId: string) : Promise<Result<ProtocolCheckResponse>> {
+  const asInternalMessage : ScryHubCheckProtocolMsg = {
+    type: SCRYHUB_CHECK_LIBRARY_COMPAT,
+    libraryId
+  };
+
+  return sendToCore<ProtocolCheckResponse>(asInternalMessage);
 }

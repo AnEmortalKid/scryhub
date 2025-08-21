@@ -108,6 +108,8 @@ async function render() {
     return;
   }
 
+  // TODO protocol update settings
+
   providers.forEach((prov, index) => {
 
     /**

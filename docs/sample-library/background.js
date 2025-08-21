@@ -4,8 +4,7 @@ const MSG_LOOKUP_CARD = "scryhub.library.lookupCard";
 
 const sampleStore = {
     key: 'sample-lgs-provider',
-    name: 'Sample LGS Provider',
-    logoUrl: chrome.runtime.getURL("logos/sample_icon@64.png")
+    name: 'Sample LGS Provider'
 }
 
 /**

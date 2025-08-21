@@ -1,0 +1,155 @@
+/* styles/shadow.css */
+/* Nothing leaks out; nothing from the page leaks in */
+
+:host {
+    --brand-accent: #5a4a83;
+    --accent-light: #5a4a83;
+    /* light purple */
+    --ink-on-brand: #ffffff;
+    --mismatch-accent-light: #b44d4d;
+}
+
+:host,
+.sh-host {
+    all: initial;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.sh-block {
+    margin-top: 10px;
+    color: #222;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+@media (prefers-color-scheme: dark) {
+    .sh-block {
+        color: #e6e6e6;
+    }
+}
+
+.sh-header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    background: var(--accent-light);
+    color: var(--ink-on-brand);
+    width: 90%;
+}
+
+.sh-mark {
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 16px;
+    background: var(--accent-light);
+    color: #fff;
+    border: none;
+    /* remove outline border now that it has a bg */
+}
+
+.sh-sub {
+    opacity: .7;
+    font-size: 12px;
+}
+
+.sh-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 90%;
+}
+
+.sh-pill {
+    display: inline-block;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--brand-accent);
+    border-radius: 999px;
+    text-decoration: none;
+}
+
+.sh-pill.loose {
+    border: 1px solid var(--mismatch-accent-light);
+    color: var(--mismatch-accent-light);
+}
+
+.scryhub-store {
+    display: flex;
+    /* let pills sit side by side */
+    flex-wrap: wrap;
+    /* wrap to next row if needed */
+    gap: 4px;
+    /* spacing between pills horizontally + vertically */
+    align-items: center;
+    /* keep things neat if logos/icons vary in height */
+}
+
+.scryhub-store .sh.pill {
+    flex: 0 0 auto;
+    /* don’t stretch, keep pill intrinsic width */
+}
+
+.sh-price {
+    margin-left: 4px;
+    font-weight: 600;
+}
+
+.sh-meta {
+    opacity: .8;
+}
+
+/* When we append (Foil) add some spacing */
+.sh-meta:not(:empty) {
+    margin-left: 0.25em;
+    /* or 4px */
+}
+
+/**
+ * Fade it out but still allow things to be clicked
+ */
+.sh-oos {
+    opacity: .45;
+}
+
+/**
+ * while in interim mode make them obvously not ready
+ */
+.sh-disabled {
+    opacity: .6;
+    pointer-events: none;
+    /* no hover/click */
+    cursor: not-allowed;
+    /* visual feedback */
+}
+
+/* Optional: container positioning if you’re anchoring globally */
+.sh-host {
+    position: fixed;
+    z-index: 2147483647;
+    /* above site UI */
+    inset: auto 16px 16px auto;
+    /* bottom-right corner */
+}
+
+.sh-logo {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 2px;
+}
+
+.sh-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    /* go right */
+    margin-left: auto;
+    margin-right: 8px;
+}
