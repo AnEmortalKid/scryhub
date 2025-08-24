@@ -80,13 +80,14 @@ function sendToCore<T>(payload: any, timeoutMs = 5000): Promise<Result<T>> {
   return new Promise((resolve) => {
     let done = false;
     const timer = setTimeout(() => {
-      if (done) return;
+      if (done) {return;}
       done = true;
       resolve({ ok: false, error: "timeout" });
     }, timeoutMs);
 
+    console.log('[ScryHub.sendToCore]', chrome.runtime.id);
     chrome.runtime.sendMessage(payload, (resp?: Result<T>) => {
-      if (done) return;
+      if (done) {return;}
       clearTimeout(timer);
 
       if (chrome.runtime.lastError) {
@@ -130,7 +131,6 @@ export async function lookupCardFromLibraryAndStore(
 export async function getLibraryStores(
   libraryId: string
 ) : Promise<Result<ListStoresResponse>> {
-
   const asInternalMessage: ScryHubGetStoresMsg = {
     type: SCRYHUB_LIST_STORES,
     libraryId
@@ -150,5 +150,6 @@ export async function getLibraryProtocol(libraryId: string) : Promise<Result<Pro
     libraryId
   };
 
+  console.log('[ScryHub]', 'sending to core', SCRYHUB_CHECK_LIBRARY_COMPAT);
   return sendToCore<ProtocolCheckResponse>(asInternalMessage);
 }

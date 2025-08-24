@@ -82,6 +82,8 @@ export function sendToLibraryExtension<P extends AnyRequest>(
 ): 
 // from Operations, key with the current request type and get that exact response type
 Promise<Result<Operations[P["type"]]["response"]>> {
+  console.log('[ScryHub]', 'requesting', payload.type, 'from extension');
+  
   return new Promise((resolve) => {
     let done = false;
 
@@ -111,17 +113,19 @@ Promise<Result<Operations[P["type"]]["response"]>> {
  * @param libraryId the extension identifier for the LGSLibrary extension
  * @returns 
  */
-export function checkProtocol(libraryId: string): Promise<Result<ProtocolCheckResponse>> {
+export function checkProtocolFromExtension(libraryId: string): Promise<Result<ProtocolCheckResponse>> {
   const request: ProtocolCheckRequest = { type: MSG_PROTOCOL_CHECK };
   return sendToLibraryExtension(libraryId, request);
 }
 
 /**
- * Asks a store provider for its stores
+ * Asks a store provider for its stores , intended to be used by contexts that need to send a message
+ * to the library directly
+ * 
  * @param libraryId the extension identifier for the LGSLibrary extension
  * @returns the list of stores
  */
-export function listStores(libraryId: string): Promise<Result<ListStoresResponse>> {
+export function listStoresFromExtension(libraryId: string): Promise<Result<ListStoresResponse>> {
   const request: ListStoresRequest = { type: MSG_LIST_STORES };
   return sendToLibraryExtension<ListStoresRequest>(libraryId, request);
 }
@@ -134,7 +138,7 @@ export function listStores(libraryId: string): Promise<Result<ListStoresResponse
  * @param opts additional params
  * @returns the response with the result of the lookup
  */
-export function lookupCard(libraryId: string, storeKey: string, descriptor: CardLookupDescriptor): Promise<Result<CardLookupResponse>> {
+export function lookupCardFromExtension(libraryId: string, storeKey: string, descriptor: CardLookupDescriptor): Promise<Result<CardLookupResponse>> {
   const request: CardLookupRequest = { type: MSG_LOOKUP, storeKey, descriptor };
   return sendToLibraryExtension<CardLookupRequest>(libraryId, request);
 }

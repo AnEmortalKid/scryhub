@@ -3,13 +3,15 @@
  */
 
 import { CardLookupDescriptor, CardLookupResult } from "@scryhub/protocol";
-import { loadLibraries } from "./stores";
 
 import { lookupCardFromLibraryAndStore } from "./messaging/internal";
 import { getCardDescriptor } from "./scryfall/data-gathering";
 import { appendStoreButton, ensureHubSection, makeStoreLi, onCardPage, populateButtonNotFound, populateButtonSuccess } from "./scryfall/page-decoration";
 import { isLibraryComptible, updateCompatibilitiesIfNeeded } from "./settings/storage";
+import { createLogger } from "./logger/factory";
 
+
+const contentLogger = createLogger("[ScryHub.Content]");
 
 function scheduleIdle(fn: () => void) {
   // be gentle: wait for paint, then idle
@@ -33,7 +35,7 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
   // Create one LI per enabled store (per LGSLibrary)
   for (const library of libraries) {
     if (!isLibraryComptible(library)) {
-      console.log('[ScryHub]', 'skipping incompatible library', library.id);
+      contentLogger.log('skipping incompatible library', library.id);
       continue;
     }
 
@@ -42,7 +44,7 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
       const label = store.name || `${library.name || library.id} — ${store.key}`;
 
       // the list item will come with at least 1 button
-      const { li, a, priceEl, metaEl } = makeStoreLi(label, store.logoUrl);
+      const { li, a, priceEl, metaEl } = makeStoreLi(label);
       listEl.appendChild(li);
 
       // Ask the ScryHub background worker to get info from the library

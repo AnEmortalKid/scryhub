@@ -2,7 +2,11 @@
 /**
  * An LGS Provider
  */
-export type StoreEntry = { key: string; name: string; enabled: boolean; logoUrl?: string; logoSvg?: string };
+export type StoreEntry = { 
+  key: string;
+   name: string; 
+   enabled: boolean; 
+};
 
 export type CompatibilityCache = {
   /**

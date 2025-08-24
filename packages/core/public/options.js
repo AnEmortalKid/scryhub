@@ -1,68 +1,84 @@
 /**
- * Our internal message type so the BG worker asks for data on our behalf:
- * {
- *  type: HUB_GET_STORES,
- *  libraryId: string
- * }
+ * Calls the background worker for data
+ * 
+ * Always resolves with an object containing an { ok: boolean }
+ * with optionally an additional { data : T } with the result of the call
+ * 
+ * @param {string} type message type from options-api
+ * @param {object} payload data expected by message defaults empty
+ * @param {*} timeoutMs how long to wait for a response
+ * 
  */
-const HUB_GET_STORES = "hub.getLibraryStores";
-
-// ---- storage helpers ----
-const STORAGE_KEY = "scryhub.providers";
-
-async function getSettings() {
-  const { [STORAGE_KEY]: providers = [] } = await chrome.storage.sync.get(STORAGE_KEY);
-  return { providers };
-}
-
-async function saveSettings(settings) {
-  await chrome.storage.sync.set({ [STORAGE_KEY]: settings.providers });
-}
-
-// ---- provider messaging from options page ----
-
-/**
- * Tries to fetch store info from a given extension
- * @param {string} libraryId id of the library
- * @param {number} timeoutMs how long to wait
- * @returns a ListStoresResp object
- */
-function listStores(libraryId, timeoutMs = 5000) {
+function callHub(type, payload = {}, timeoutMs = 8000) {
   return new Promise((resolve) => {
     let done = false;
-    const t = setTimeout(() => { 
-      if (!done) { 
-        done = true; resolve({ ok: false, error: "timeout" }); 
-      } 
-    }, timeoutMs);
-
-    const bgWorkerGetStores = {
-      type: HUB_GET_STORES,
-      libraryId
-    };
-
-    chrome.runtime.sendMessage(bgWorkerGetStores, (resultEnvelope) => {
-      if (done) { 
-        return; 
-      }
+    const t = setTimeout(() => { if (!done) { done = true; resolve({ ok: false, error: "timeout" }); } }, timeoutMs);
+    try {
+      chrome.runtime.sendMessage({ type, ...payload }, (resp) => {
+        if (done) return;
+        clearTimeout(t);
+        if (chrome.runtime.lastError) return resolve({ ok: false, error: chrome.runtime.lastError.message });
+        resolve({ ok: true, data: resp } ?? { ok: false, error: "no_response" });
+      });
+    } catch (e) {
       clearTimeout(t);
-      
-      if (chrome.runtime.lastError) {
-        resolve({ ok: false, error: chrome.runtime.lastError.message });
-      } else {
-        
-        if(resultEnvelope.ok) {
-          // this would be the ListStoresResp
-          const unwrapped = resultEnvelope.data;
-          resolve(unwrapped);
-        }
-        else {
-          resolve({ ok: false, error: 'not known ' + resultEnvelope});
-        }
-      }
-    });
+      resolve({ ok: false, error: String(e?.message || e) });
+    }
   });
 }
+
+// keep consistent
+const HUB_OPTIONS_MESSAGES = {
+  GET_LIBRARIES: "scryhub.core.getLibraries",
+  ADD_LIBRARY: "scryhub.core.addLibrary",
+  REMOVE_LIBRARY: "scryhub.core.removeLibrary",
+  REFRESH_STORES: "scryhub.core.refreshStores",
+  CHECK_COMPATIBILITY_FOR_LIB: "scryhub.core.checkLibraryCompatibility",
+  TOGGLE_STORE: "scryhub.core.toggleStore",
+};
+
+
+/**
+ * Unwraps the response from our RPC call to the background worker
+ * @param {Object} result expected with { ok: boolean, data: { libraries: [] }}
+ * @returns 
+ */
+function unwrapOptionsOperationResponse(result) {
+  return result.ok ? result.data.libraries : Promise.reject(result.error);
+}
+
+/**
+ * Api used by the options page to call the ScryHub background worker for data
+ */
+const HubApi = {
+  getLibraries() {
+    return callHub(HUB_OPTIONS_MESSAGES.GET_LIBRARIES).then(unwrapOptionsOperationResponse);
+  },
+
+  addLibrary(library) {
+    return callHub(HUB_OPTIONS_MESSAGES.ADD_LIBRARY, library).then(unwrapOptionsOperationResponse);
+  },
+
+  removeLibrary(libraryId) {
+    return callHub(HUB_OPTIONS_MESSAGES.REMOVE_LIBRARY, { id: libraryId }).then(unwrapOptionsOperationResponse);
+  },
+
+  refreshStores(libraryId) {
+    return callHub(HUB_OPTIONS_MESSAGES.REFRESH_STORES, { id: libraryId }).then(unwrapOptionsOperationResponse);
+  },
+
+  checkCompatibility(libraryId) {
+    return callHub(HUB_OPTIONS_MESSAGES.CHECK_COMPATIBILITY_FOR_LIB, { id: libraryId }).then(unwrapOptionsOperationResponse);
+  },
+
+  toggleStore(libraryId, storeKey) {
+    return callHub(HUB_OPTIONS_MESSAGES.TOGGLE_STORE, { id: libraryId, storeKey }).then(unwrapOptionsOperationResponse);
+  }
+
+  // toggle store
+  // check all compatibilities
+}
+
 
 // ---- UI rendering ----
 const $providers = document.getElementById("providers");
@@ -97,18 +113,11 @@ function createElement(tag, attributes = {}, children = []) {
   return node;
 }
 
-// needs the libraries
-// needs to add a library
-// needs to remove a library
-// needs to get stores
-async function render() {
-  // STORED libraries
-  // Render ALWAYS operates on the stored library information to render
-  // Then it uses RPCS to update stuff instead of saving data itself (i think that works)
-  const { providers } = await getSettings();
+
+async function renderLibraries(libraries) {
   $providers.innerHTML = "";
 
-  if (!providers.length) {
+  if (!libraries.length) {
     $providers.appendChild(createElement("div", { class: "muted" }, [
       document.createTextNode("No providers yet. Add one using the form above.")
     ]));
@@ -117,7 +126,7 @@ async function render() {
 
   // TODO protocol update settings
 
-  providers.forEach((prov, index) => {
+  libraries.forEach((prov, index) => {
 
     /**
      * Make a header with the extension friendly name and id
@@ -133,6 +142,7 @@ async function render() {
       // buttons on the right
       createElement("div", {}, [
         createElement("button", { class: "small", onclick: () => refreshProvider(prov.id) }, [document.createTextNode("Refresh stores")]),
+        createElement("button", { class: "small", style: "margin-left:8px", onclick: () => checkCompatibility(prov.id) }, [document.createTextNode("Check Compatibility")]),
         createElement("button", { class: "small", style: "margin-left:8px", onclick: () => removeProvider(prov.id) }, [document.createTextNode("Remove")])
       ])
     ]);
@@ -147,22 +157,15 @@ async function render() {
         checkbox.checked = !!store.enabled;
         // wire our enable/disable
         checkbox.addEventListener("change", async () => {
-          const settings = await getSettings();
-          const p = settings.providers.find(p => p.id === prov.id);
-          if (!p) { return; }
-          const s = p.stores.find(st => st.key === store.key);
-          if (!s) { return; }
-          s.enabled = checkbox.checked;
-          await saveSettings(settings);
+          toggleStore(prov.id, store.key);
         });
 
-        const logo = store.logoUrl ? createElement("img", { src: store.logoUrl, alt: "" }) : null;
         const row = createElement("div", { class: "store" }, [
           checkbox,
-          logo || createElement("span"),
+          createElement("span"),
           createElement("span", {}, [document.createTextNode(store.name || store.key)]),
           // show the internal key in the provider for debug reasons
-          createElement("span",{ class: "muted kbd"}, [document.createTextNode(store.key)])
+          createElement("span", { class: "muted kbd" }, [document.createTextNode(store.key)])
         ]);
         list.appendChild(row);
       });
@@ -176,79 +179,51 @@ async function render() {
   });
 }
 
+async function render() {
+  // Render ALWAYS operates on the stored library information to render
+  // Then it uses RPCS to update stuff instead of saving data itself (i think that works)
+  const libraries = await HubApi.getLibraries();
+  renderLibraries(libraries);
+}
+
 async function addProvider() {
   const id = $provId.value.trim();
-  if (!id) {return;}
+  const provName = $provName.value.trim();
+  if (!id) {
+    return;
+  }
+  
   $addBtn.disabled = true;
   try {
-    const resp = await listStores(id, 6000);
-    if (!resp?.ok) {
-      alert(`Failed to reach provider:\n${resp?.error || "unknown error"}`);
-      return;
-    }
+    const updatedLibs = await HubApi.addLibrary({
+      id: id,
+      name: provName
+    });
 
-    // Merge into settings (dedupe by provider id)
-    const { providers } = await getSettings();
-    const stores = (resp.stores || []).map(s => ({
-      key: s.key, name: s.name,
-      enabled: true,
-      logoUrl: s.logoUrl, logoSvg: s.logoSvg
-    }));
-
-    const existing = providers.find(p => p.id === id);
-    if (existing) {
-      existing.name = $provName.value.trim() || existing.name;
-      existing.protocolVersion = resp.protocolVersion || existing.protocolVersion;
-      existing.capabilities = resp.capabilities || existing.capabilities;
-      existing.stores = stores;
-    } else {
-      providers.push({
-        id,
-        name: $provName.value.trim() || undefined,
-        protocolVersion: resp.protocolVersion,
-        capabilities: resp.capabilities || [],
-        stores,
-      });
-    }
-    await saveSettings({ providers });
-    $provId.value = "";
-    $provName.value = "";
-    await render();
+    renderLibraries(updatedLibs);
   } finally {
     $addBtn.disabled = false;
   }
 }
 
 async function refreshProvider(id) {
-  const resp = await listStores(id, 6000);
-  if (!resp?.ok) { alert(`Refresh failed: ${resp?.error || "unknown error"}`); return; }
-  const { providers } = await getSettings();
-  const p = providers.find(x => x.id === id);
-  if (!p) return;
-  p.protocolVersion = resp.protocolVersion || p.protocolVersion;
-  p.capabilities = resp.capabilities || p.capabilities;
-  const freshKeys = new Set((resp.stores || []).map(s => s.key));
-  // keep previous enabled flags when keys match
-  p.stores = (resp.stores || []).map(s => {
-    const prev = (p.stores || []).find(ps => ps.key === s.key);
-    return {
-      key: s.key,
-      name: s.name,
-      enabled: prev ? !!prev.enabled : true,
-      logoUrl: s.logoUrl,
-      logoSvg: s.logoSvg
-    };
-  });
-  await saveSettings({ providers });
-  await render();
+  const updatedLibs = await HubApi.refreshStores(id);
+  renderLibraries(updatedLibs);
 }
 
 async function removeProvider(id) {
-  const { providers } = await getSettings();
-  console.log('removing', id);
-  const next = providers.filter(p => p.id !== id);
-  await saveSettings({ providers: next });
-  await render();
+  const updatedLibs = await HubApi.removeLibrary(id);
+  renderLibraries(updatedLibs);
+}
+
+async function checkCompatibility(id) {
+  const updatedLibs = await HubApi.checkCompatibility(id);
+  renderLibraries(updatedLibs);
+}
+
+async function toggleStore(libraryId, storeKey) {
+  const updatedLibs = await HubApi.toggleStore(libraryId, storeKey);
+  renderLibraries(updatedLibs);
 }
 
 // Wire up

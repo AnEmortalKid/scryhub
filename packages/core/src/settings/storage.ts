@@ -1,5 +1,5 @@
 import { SemVer } from "@scryhub/protocol";
-import { checkProtocol } from "../messaging/library";
+import { checkProtocolFromExtension } from "../messaging/library";
 import { CompatibilityCache, LGSLibrary } from "../stores"
 import { getLibraryProtocol } from "../messaging/internal";
 
@@ -56,13 +56,30 @@ export async function getStoredLibraries(): Promise<LGSLibrary[]> {
 }
 
 /**
+ * Attempts to get the protocol version for a library
+ * @param libraryId the id of the library
+ * @param requestViaBackground whether this request needs routing through the background worker or not
+ */
+async function getLibraryProtocolRouter(libraryId: string, requestViaBackground : boolean) {
+    if(requestViaBackground) {
+        return await getLibraryProtocol(libraryId);
+    }
+
+    // use external call directly
+    return await checkProtocolFromExtension(libraryId);
+}
+
+/**
  * Checks whether the given library is compatible with our protocol version or not
  * @param library the library to check for compatibility
  * @param respectTTL whether we should avoid checking based on ttl or not
+ * @param useBackgroundWorker whether we should use the background service worker to request data or not,
+ *  should be sent as false when we are already responding in a background request context to avoid re-sending messages to ourselves
+ *  and having the listener fail to respond (it was busy processing its own message that initiates the call)
  */
-export async function performCompatibilityCheck(library: LGSLibrary, respectTTL = true) {
+export async function performCompatibilityCheck(library: LGSLibrary, respectTTL = true, requestViaBackground = true) {
     const now = new Date().getTime();
-    const libCompatCache = library.compatiblity ?? { isCompatible: false, lastEvaluatedTime: now } as CompatibilityCache;
+    const libCompatCache = library.compatiblity ?? { isCompatible: false, lastEvaluatedTime: undefined } as CompatibilityCache;
     // set the ref
     library.compatiblity = libCompatCache;
 
@@ -71,7 +88,9 @@ export async function performCompatibilityCheck(library: LGSLibrary, respectTTL 
         return;
     }
 
-    const libProtocolEnvelope = await getLibraryProtocol(library.id);
+    console.log('[ScryHub]', 'running compatibility for library', library.id);
+    const libProtocolEnvelope = await getLibraryProtocolRouter(library.id, requestViaBackground);
+    console.log('[ScryHub]', 'evaluating compatibility response', libProtocolEnvelope);
     libCompatCache.lastEvaluatedTime = now;
     // not fine , disable until future check
     if (!libProtocolEnvelope.ok) {
