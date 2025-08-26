@@ -23,5 +23,5 @@ search capabilities for specific stores.
 
 - figure out publishing protocol
 - Add toggle for scryhub to be active or not
-- TODO determine svg vs png
 - TODO installing an extension docs (unpacked and packed)
+- Update options for compatibility

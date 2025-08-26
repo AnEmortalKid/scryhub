@@ -75,11 +75,19 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
 
             for (const finish of ["nonfoil", "foil"] as const) {
               const info = byFinish.get(finish);
-              if (!info) continue;
+              if (!info) { continue; }
 
-              const target = finish === "nonfoil"
-                ? { a, priceEl, metaEl }                // from makeStoreLi
-                : appendStoreButton(li, label);     // add new button
+
+              let target = undefined;
+              if (descriptor.finishTreatments.length == 1) {
+                // just 1 finish then don't distinguish
+                target = { a, priceEl, metaEl };
+              }
+              else {
+                target = finish === "nonfoil"
+                  ? { a, priceEl, metaEl }                // from makeStoreLi
+                  : appendStoreButton(li, label);     // add new button
+              }
 
               // fill in the details with the same style
               populateButtonSuccess(target.a, target.priceEl, info);
