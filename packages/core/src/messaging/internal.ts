@@ -4,6 +4,7 @@
 
 import { CardLookupDescriptor, CardLookupRequest, CardLookupResponse, CardLookupResult, ListStoresResponse, ProtocolCheckResponse } from "@scryhub/protocol";
 import { Result } from "./library";
+import { createLogger } from "../logger/factory";
 
 /**
  * Message type for our content page to ask for card information from the service worker
@@ -70,6 +71,8 @@ export type ScryHubCheckProtocolMsg = {
   libraryId: string,
 }
 
+const internalLogger = createLogger("[ScryHub.internal]");
+
 /**
  * Sends a message to our extension's background worker. 
  * @param payload the message request
@@ -85,7 +88,7 @@ function sendToCore<T>(payload: any, timeoutMs = 5000): Promise<Result<T>> {
       resolve({ ok: false, error: "timeout" });
     }, timeoutMs);
 
-    console.log('[ScryHub.sendToCore]', chrome.runtime.id);
+    internalLogger.log('sending to core from', chrome.runtime.id);
     chrome.runtime.sendMessage(payload, (resp?: Result<T>) => {
       if (done) {return;}
       clearTimeout(timer);
@@ -150,6 +153,5 @@ export async function getLibraryProtocol(libraryId: string) : Promise<Result<Pro
     libraryId
   };
 
-  console.log('[ScryHub]', 'sending to core', SCRYHUB_CHECK_LIBRARY_COMPAT);
   return sendToCore<ProtocolCheckResponse>(asInternalMessage);
 }

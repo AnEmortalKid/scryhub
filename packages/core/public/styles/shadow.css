@@ -2,11 +2,14 @@
 /* Nothing leaks out; nothing from the page leaks in */
 
 :host {
-    --brand-accent: #5a4a83;
-    --accent-light: #5a4a83;
+    /** Header */
+    --theme-brand-purple: #5a4a83;
     /* light purple */
     --ink-on-brand: #ffffff;
-    --mismatch-accent-light: #b44d4d;
+    
+    /** For the link pills */
+    --card-pill-accent: #ae0274;
+    --card-mismatch-accent-light: #b44d4d;
 }
 
 :host,
@@ -33,7 +36,7 @@
     gap: 8px;
     align-items: center;
     margin-bottom: 6px;
-    background: var(--accent-light);
+    background: var(--theme-brand-purple);
     color: var(--ink-on-brand);
     width: 90%;
 }
@@ -43,7 +46,7 @@
     padding: 2px 6px;
     border-radius: 6px;
     font-size: 16px;
-    background: var(--accent-light);
+    background: var(--theme-brand-purple);
     color: #fff;
     border: none;
     /* remove outline border now that it has a bg */
@@ -69,14 +72,47 @@
     align-items: center;
     gap: 6px;
     padding: 6px 10px;
-    border: 1px solid var(--brand-accent);
+    border: 1px solid var(--card-pill-accent);
+    color: var(--card-pill-accent);
     border-radius: 999px;
     text-decoration: none;
 }
 
 .sh-pill.loose {
-    border: 1px solid var(--mismatch-accent-light);
-    color: var(--mismatch-accent-light);
+    border: 1px solid var(--card-mismatch-accent-light);
+    color: var(--card-mismatch-accent-light);
+}
+
+/* Normal pill (brand accent) */
+a.sh-pill,
+a.sh-pill:link,
+a.sh-pill:visited {
+  color: var(--card-pill-accent);
+  border-color: var(--card-pill-accent);
+  text-decoration: none;
+}
+
+/* Hover/active states (optional effect) */
+a.sh-pill:hover,
+a.sh-pill:active {
+  color: var(--card-pill-accent);
+  border-color: var(--card-pill-accent);
+  text-decoration: underline; /* if you want hover feedback */
+}
+
+/* Loose pill (mismatch accent) */
+a.sh-pill.sh-loose,
+a.sh-pill.sh-loose:link,
+a.sh-pill.sh-loose:visited {
+  color: var(--card-mismatch-accent-light);
+  border-color: var(--card-mismatch-accent-light);
+}
+
+a.sh-pill.sh-loose:hover,
+a.sh-pill.sh-loose:active {
+  color: var(--card-mismatch-accent-light);
+  border-color: var(--card-mismatch-accent-light);
+  text-decoration: underline;
 }
 
 .scryhub-store {
@@ -114,7 +150,7 @@
  * Fade it out but still allow things to be clicked
  */
 .sh-oos {
-    opacity: .45;
+    opacity: .6;
 }
 
 /**
@@ -138,8 +174,8 @@
 }
 
 .sh-loose {
-    border-color: var(--mismatch-accent-light);
-    color: var(--mismatch-accent-light);
+    border-color: var(--card-mismatch-accent-light);
+    color: var(--card-mismatch-accent-light);
 }
 
 .sh-logo {
