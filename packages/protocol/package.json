@@ -10,5 +10,11 @@
   },
   "devDependencies": {
     "tslib": "^2.6.2"
-  }
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ]
 }

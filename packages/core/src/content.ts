@@ -71,11 +71,17 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
             populateButtonNotFound(priceEl);
           }
           else {
-            const byFinish = new Map(succedLookup.cards.map(c => [c.finishTreatment, c]));
+            const resultsByFinish = new Map(succedLookup.cards.map(c => [c.finishTreatment, c]));
 
+            // TODO handle receiving 1 result when we ask for 2
+            // TODO refactor to make the store LI but don't append buttons
+            // until we have the results
             for (const finish of ["nonfoil", "foil"] as const) {
-              const info = byFinish.get(finish);
-              if (!info) { continue; }
+              // did not get a response for this treatment type
+              const info = resultsByFinish.get(finish);
+              if (!info) { 
+                continue; 
+              }
 
 
               let target = undefined;

@@ -21,15 +21,17 @@ async function lookupCardFromSite(cardSearch) {
     const name = cardSearch.scryfallTitle || cardSearch.name;
     return {
         found: true,
-        card: {
+        cards: [{
             title: name,
             url: 'https://github.com/AnEmortalKid/scryhub',
             price: {
                 amount: 0.99,
                 currency: 'USD'
             },
-            availability: "in_stock"
-        }
+            availability: "in_stock",
+            finishTreatment: "foil",
+            match: "loose"
+        }]
     }
 }
 

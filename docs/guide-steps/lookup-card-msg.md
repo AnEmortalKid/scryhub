@@ -73,87 +73,10 @@ Each `FoundCardInformation` object should have the following properties:
   * `price`: _if available_ An object that defines the price of the card
     * `amount`: numeric amount in decimal format `3.99`
     * `currency`: the currency code for the amount
-  * `availability`: whether the card is in stock or not, if the store does not have enough info to detemrine this, return `unknown`
+  * `availability`: whether the card is in stock or not, if the store does not have enough info to determine this, return `unknown`
   * `finishTreatment`: the treatment finish on the card, `foil` or `nonfoil`
   * `match`: how close the search matches the required card, if you were able to match by set and number and believe its the exact version, return `exact` , if you think it matches by name but it may be a different version, return `loose`. 
     * ScryHub believes that users are trying to find a card based on what it does and not necessarily what set it came from, so it decorates the result based on this qualification.
-
-Successful responses expect a `CardLookupResult` object which determines whether:
-
-1. The card can be found at the store (it may exist but be out of stock temporarily)
-2. The price of the card at the store
-3. If it is out of stock or not
-
-
-The response to the `scryhub.library.lookupCard` message can return either a success or error response.
-
-If you're returning an error, respond with:
-
-```javascript
-{
-    ok: false, 
-    // optional error details
-    error: "details why the request failed"
-}
-```
-
-If you're returning a success, respond with a `CardLookupResult` and the following properties:
-```javascript
-{
-    ok: true,
-    // the identifier for your store
-    storeKey: 'some-internal-key';
-    // data for the lookup operation, not finding a card can still be considered successful
-    result: CardLookupResult;
-}
-```
-
-The `CardLookupResult` object indicates whether the card was found at the store or not, and if it was found, what information the store has.
-
-It can either be:
-
-* `found`: `false`
-  * for times when the card isn't even listed on the store
-
-* `found`: `true`
-  * when the card is listed on the store, regardless of availability
-* `card`: More details about the card
-  * `url`: A direct URL that would take a user to purchase this card
-  * `title`: The title of the card on the store (if its formatted differently)
-  * `price`: _if available_ An object that defines the price of the card
-    * `amount`: numeric amount in decimal format `3.99`
-    * `currency`: the currency code for the amount
-  * `availability`: whether the card is in stock or not, if the store does not have enough info to detemrine this, return `unknown`
-
-Possible responses you may have can be:
-
-```javascript
-{
-    ok: true,
-    storeKey: 'some-internal-key';
-    // did not find it in the store
-    result: {
-        found: false
-    };
-}
-```
-
-```javascript
-{
-    ok: true,
-    storeKey: 'some-internal-key';
-    // did not find it in the store
-    result: {
-        found: true,
-        card: {
-            url: 'http://buyithere/thecard.html',
-            title: 'the card you looked for',
-            price: { amount: 3.99, currency: 'eur' },
-            availability: 'in_stock'
-        }
-    };
-}
-```
 
 Your updated `background.js` may look something like this:
 
@@ -164,15 +87,17 @@ async function lookupCardFromSite(cardSearch) {
     const name = cardSearch.scryfallTitle || cardSearch.name;
     return {
         found: true,
-        card: {
+        cards: [{
             title: name,
             url: 'https://github.com/AnEmortalKid/scryhub',
             price: {
                 amount: 0.99,
                 currency: 'USD'
             },
-            availability: "in_stock"
-        }
+            availability: "in_stock",
+            finishTreatment: "foil",
+            match: "loose"
+        }]
     }
 }
 ```
@@ -191,8 +116,11 @@ async function lookupCardFromSite(cardSearch) {
 The full version can be found here:
 ```javascript
 // Take this from the docs / protocol package in case it changes
+const MSG_GET_PROTOCOL = "scryhub.library.protocolCheck";
 const MSG_LIST_STORES = "scryhub.library.listStores";
 const MSG_LOOKUP_CARD = "scryhub.library.lookupCard";
+
+const protocolVersion = "0.1.0";
 
 const sampleStore = {
     key: 'sample-lgs-provider',
@@ -200,21 +128,31 @@ const sampleStore = {
 }
 
 async function lookupCardFromSite(cardSearch) {
+    const name = cardSearch.scryfallTitle || cardSearch.name;
     return {
         found: true,
-        card: {
-            title: cardSearch.name,
+        cards: [{
+            title: name,
             url: 'https://github.com/AnEmortalKid/scryhub',
             price: {
                 amount: 0.99,
-                currency: 'usd'
+                currency: 'USD'
             },
-            availability: "in_stock"
-        }
+            availability: "in_stock",
+            finishTreatment: "foil",
+            match: "loose"
+        }]
     }
 }
 
 chrome.runtime.onMessageExternal.addListener((msg, sender, sendResponse) => {
+     if(msg?.type === MSG_GET_PROTOCOL) {
+         console.log('[Sample Library]', 'Protocol Check');
+         sendResponse({
+            ok: true, protocolVersion: protocolVersion
+         });
+    }
+    
     if(msg?.type === MSG_LIST_STORES) {
          console.log('[Sample Library]', 'Listing Stores');
          sendResponse({
@@ -231,7 +169,7 @@ chrome.runtime.onMessageExternal.addListener((msg, sender, sendResponse) => {
         });
     }
 
-    // keep the channel open for the async call
+    // keep the channel open for sendResponse
     return true;
 }); 
 ```
@@ -252,10 +190,11 @@ chrome.runtime.sendMessage(libraryId,
         setCode: "BLC",
         collectorNumber: "1",
         scryfallTitle: "Bello, Bard of the Brambles (Bloomburrow Commander #1)",
-        borderTreatment: "border-borderless"
+        borderTreatment: "border-borderless",
+        finishTreatments: [ 'nonfoil', 'foil' ]
     }
 }, 
 console.log);
 ```
 
-You should see it print the card info!
+You should see it print the card info, and now you're ready to connect your extension.
