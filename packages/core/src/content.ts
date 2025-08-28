@@ -43,9 +43,9 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
     for (const store of enabledStores) {
       const label = store.name || `${library.name || library.id} — ${store.key}`;
 
-      // the list item will come with at least 1 button
-      const { li, a, priceEl, metaEl } = makeStoreLi(label);
-      listEl.appendChild(li);
+      // list comes with a placeholder button
+      const { listItem, placeholder } = makeStoreLi(label);
+      listEl.appendChild(listItem);
 
       // Ask the ScryHub background worker to get info from the library
       // We don't expect many libraries and stores selected so we can wait for each
@@ -55,27 +55,27 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
       );
 
       if (!extensionCallResult.ok) {
-        populateButtonNotFound(priceEl);
+        populateButtonNotFound(placeholder.priceSpan);
       }
       else {
         const extensionResponse = extensionCallResult.data;
 
         if (!extensionResponse.ok) {
-          populateButtonNotFound(priceEl);
+          populateButtonNotFound(placeholder.priceSpan);
         }
         else {
           // extension suceeded so we must have a result (could be not found that's valid)
           const succedLookup = extensionResponse.result as CardLookupResult;
 
           if (!succedLookup.found) {
-            populateButtonNotFound(priceEl);
+            populateButtonNotFound(placeholder.priceSpan);
           }
           else {
+            // clean it up
+            listItem.removeChild(placeholder.anchor);
+
             const resultsByFinish = new Map(succedLookup.cards.map(c => [c.finishTreatment, c]));
 
-            // TODO handle receiving 1 result when we ask for 2
-            // TODO refactor to make the store LI but don't append buttons
-            // until we have the results
             for (const finish of ["nonfoil", "foil"] as const) {
               // did not get a response for this treatment type
               const info = resultsByFinish.get(finish);
@@ -83,22 +83,12 @@ async function renderProvidersForCard(listEl: HTMLUListElement, descriptor: Card
                 continue; 
               }
 
-
-              let target = undefined;
-              if (descriptor.finishTreatments.length == 1) {
-                // just 1 finish then don't distinguish
-                target = { a, priceEl, metaEl };
-              }
-              else {
-                target = finish === "nonfoil"
-                  ? { a, priceEl, metaEl }                // from makeStoreLi
-                  : appendStoreButton(li, label);     // add new button
-              }
-
+              const treatmentButton = appendStoreButton(listItem, label);
+              const { a, priceEl } = treatmentButton;
               // fill in the details with the same style
-              populateButtonSuccess(target.a, target.priceEl, info);
+              populateButtonSuccess(a, priceEl, info);
               // add a little spacing
-              target.metaEl.textContent = finish === "foil" ? "(Foil)" : "";
+              treatmentButton.metaEl.textContent = finish === "foil" ? "(Foil)" : "";
             }
           }
         }

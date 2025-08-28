@@ -150,12 +150,66 @@ export function appendStoreButton(li: HTMLLIElement, storeName: string) {
   return { a, priceEl: price, metaEl: meta };
 }
 
-export function makeStoreLi(label: string, logoUrl?: string) {
+/**
+ * Appends a placeholder waiting for store button to a list item 
+ * @param li a list element for our store
+ * @param storeName the name of the store
+ * @returns the anchor for the placeholder element
+ */
+export function appendPlaceholderButton(li: HTMLLIElement, storeName: string) : StoreButtonElements {
+  const a = document.createElement('a');
+  a.className = 'sh-pill sh-disabled'; // start disabled
+  a.href = "#";
+  a.tabIndex = -1;                // not focusable while disabled
+  a.style.pointerEvents = "none"; // blocks clicks without listeners
+  a.setAttribute('aria-disabled', 'true');
+  a.rel = 'nofollow noopener';
+  a.target = '_blank';
+  a.id = `${storeName}-placeholder`;
+
+  const store = document.createElement('span');
+  store.className = 'sh-store';
+  store.textContent = storeName;
+
+  const meta = document.createElement('span');
+  meta.className = 'sh-meta'; // e.g., (Foil) – set later if applicable
+
+  const price = document.createElement('span');
+  // TODO handle currency
+  price.className = 'sh-price';
+  price.textContent = '…';
+
+  a.append(store, meta, price);
+
+  li.appendChild(a);
+  return { anchor: a, priceSpan: price, treatmentSpan: meta };
+}
+
+
+
+interface StoreButtonElements {
+  anchor: HTMLAnchorElement,
+  priceSpan: HTMLSpanElement,
+  treatmentSpan: HTMLSpanElement
+}
+
+interface StoreContainerElement {
+  listItem: HTMLLIElement,
+  placeholder: StoreButtonElements
+}
+
+/**
+ * Returns the element that will hold the store contents
+ * @param label the label to put on the placeholder item
+ * @returns the elements related to the store
+ */
+export function makeStoreLi(label: string) : StoreContainerElement {
   const li = document.createElement("li");
   li.classList.add("scryhub-store");
 
-  const { a, priceEl, metaEl } = appendStoreButton(li, label);
-  return { li, a, priceEl, metaEl };
+  const placeholder = appendPlaceholderButton(li, label);
+
+  return { listItem : li , placeholder};
 }
 
 function formatMoney(m?: { amount: number; currency: string }) {
