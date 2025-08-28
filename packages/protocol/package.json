@@ -1,6 +1,8 @@
 {
   "name": "@scryhub/protocol",
   "version": "0.1.0",
+  "description": "TypeScript types and RPC message contracts for ScryHub core to communicate with LGSLibrary extensions.",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -11,6 +13,22 @@
   "devDependencies": {
     "tslib": "^2.6.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnEmortalKid/scryhub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AnEmortalKid/scryhub/issues"
+  },
+  "homepage": "https://github.com/AnEmortalKid/scryhub#readme",
+  "keywords": [
+    "scryhub",
+    "protocol",
+    "extension",
+    "chrome-extension",
+    "typescript",
+    "rpc"
+  ],
   "files": [
     "dist",
     "package.json",
