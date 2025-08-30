@@ -60,8 +60,8 @@ export async function getStoredLibraries(): Promise<LGSLibrary[]> {
  * @param libraryId the id of the library
  * @param requestViaBackground whether this request needs routing through the background worker or not
  */
-async function getLibraryProtocolRouter(libraryId: string, requestViaBackground : boolean) {
-    if(requestViaBackground) {
+async function getLibraryProtocolRouter(libraryId: string, requestViaBackground: boolean) {
+    if (requestViaBackground) {
         return await getLibraryProtocol(libraryId);
     }
 
@@ -79,7 +79,13 @@ async function getLibraryProtocolRouter(libraryId: string, requestViaBackground 
  */
 export async function performCompatibilityCheck(library: LGSLibrary, respectTTL = true, requestViaBackground = true) {
     const now = new Date().getTime();
-    const libCompatCache = library.compatiblity ?? { isCompatible: false, lastEvaluatedTime: undefined } as CompatibilityCache;
+
+    const defaultEmpty = {
+        isCompatible: false, lastEvaluatedTime: undefined,
+        protocolVersion: undefined
+    } as CompatibilityCache;
+
+    const libCompatCache = library.compatiblity ?? defaultEmpty
     // set the ref
     library.compatiblity = libCompatCache;
 
@@ -106,6 +112,7 @@ export async function performCompatibilityCheck(library: LGSLibrary, respectTTL 
 
     const libProtocolVersion = libProtocolResponse.protocolVersion;
     libCompatCache.isCompatible = isCompatibleProtocol(libProtocolVersion);
+    libCompatCache.protocolVersion = libProtocolVersion;
 }
 
 /**

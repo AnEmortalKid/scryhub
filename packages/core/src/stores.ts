@@ -1,3 +1,4 @@
+import { SemVer } from "@scryhub/protocol";
 
 /**
  * An LGS Provider
@@ -17,6 +18,10 @@ export type CompatibilityCache = {
    * When this was evaluated last
    */
   lastEvaluatedTime?: number;
+  /**
+   * The protocol version if one was available to display
+   */
+  protocolVersion?: SemVer;
 }
 
 

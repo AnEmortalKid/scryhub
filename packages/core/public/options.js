@@ -37,11 +37,30 @@ const HUB_OPTIONS_MESSAGES = {
   TOGGLE_STORE: "scryhub.core.toggleStore",
 };
 
+/**
+ * @typedef {Object} LGSLibrary
+ * @property {string} id - Provider extension ID.
+ * @property {string} [name] - Friendly label you set.
+ * @property {StoreEntry[]} stores - Registered stores for this library.
+ * @property {CompatibilityCache} [compatiblity] - Compatibility cache/status.
+ */
+
+/**
+ * @typedef {Object} CompatibilityCache
+ * @property {boolean} isCompatible - whether lib is compatible or not
+ * @property {number} [lastEvaluatedTime] - when this was evaluated last
+ * @property {SemVer} [protocolVersion] - protocol version if one was available to display
+ */
+
+/**
+ * A SemVer string in MAJOR.MINOR.PATCH format, e.g. "1.2.3".
+ * @typedef {string} SemVer
+ */
 
 /**
  * Unwraps the response from our RPC call to the background worker
  * @param {Object} result expected with { ok: boolean, data: { libraries: [] }}
- * @returns 
+ * @returns {LGSLibrary[]} an array of libraries or a rejected promise 
  */
 function unwrapOptionsOperationResponse(result) {
   return result.ok ? result.data.libraries : Promise.reject(result.error);
@@ -113,7 +132,36 @@ function createElement(tag, attributes = {}, children = []) {
   return node;
 }
 
+/**
+ * 
+ * @param {CompatibilityCache} [compatiblity] compatibility info if available
+ */
+function createProtocolVersionElement(compatiblity) {
 
+  const pill = document.createElement('span');
+  pill.classList.add('pill');
+
+  const compatVersion = compatiblity?.protocolVersion;
+
+  if(compatVersion) {
+    pill.textContent = compatVersion;
+    // compatibility must exist
+    const compatType = compatiblity.isCompatible ? 'pill--ok' : 'pill--err';
+    pill.classList.add(compatType);
+  }
+  else {
+    pill.classList.add('pill--muted');
+    pill.textContent = "N/A";
+  }
+
+  return pill;
+}
+
+/**
+ * 
+ * @param {LGSLibrary[]} libraries to render
+ * @returns 
+ */
 async function renderLibraries(libraries) {
   $providers.innerHTML = "";
 
@@ -123,8 +171,6 @@ async function renderLibraries(libraries) {
     ]));
     return;
   }
-
-  // TODO protocol update settings
 
   libraries.forEach((prov, index) => {
 
@@ -136,7 +182,9 @@ async function renderLibraries(libraries) {
         createElement("div", { class: "row" }, [
           createElement("b", {}, [document.createTextNode(prov.name || prov.id)]),
           // create a pill with the id
-          createElement("span", { class: "pill" }, [document.createTextNode(prov.id)])
+          createElement("span", { class: "pill" }, [document.createTextNode(prov.id)]),
+          // create a pill with the version if it exists
+          createProtocolVersionElement(prov.compatiblity)
         ])
       ]),
       // buttons on the right
@@ -192,7 +240,7 @@ async function addProvider() {
   if (!id) {
     return;
   }
-  
+
   $addBtn.disabled = true;
   try {
     const updatedLibs = await HubApi.addLibrary({

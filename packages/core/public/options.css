@@ -6,12 +6,31 @@
   --bg-dark: #1e1f23;
   --fg: #222;
   --fg-dark: #eee;
-  --brand-accent: #5a4a83; /* logo bg purple */
-  --accent: #8b7daf;       /* light purple */
-  --accent-hover: #46376a; /* darker purple hover */
+  --brand-accent: #5a4a83;
+  /* logo bg purple */
+  --accent: #8b7daf;
+  /* light purple */
+  --accent-hover: #46376a;
+  /* darker purple hover */
   --border: #d0d0d0;
   --border-dark: #444;
   --muted: #666;
+
+  --ok-bg: #e8f5e9;
+  --ok-border: #a7d7b0;
+  --ok-text: #1e6b2f;
+
+  --warn-bg: #fff8e1;
+  --warn-border: #ffe0a3;
+  --warn-text: #8a6d3b;
+
+  --err-bg: #fdebea;
+  --err-border: #f4b7b3;
+  --err-text: #8a3a3a;
+
+  --muted-bg: #f3f4f6;
+  --muted-border: #e5e7eb;
+  --muted-text: #374151;
 }
 
 .header-bar {
@@ -44,7 +63,10 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  body { background: var(--bg-dark); color: var(--fg-dark); }
+  body {
+    background: var(--bg-dark);
+    color: var(--fg-dark);
+  }
 }
 
 main {
@@ -68,7 +90,7 @@ fieldset {
   border-radius: 8px;
   padding: 12px;
   margin: 12px 0;
-  background: rgba(0,0,0,0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .row {
@@ -116,6 +138,31 @@ button:hover {
   background: #f0f0f0;
 }
 
+.pill--ok {
+  background: var(--ok-bg);
+  border-color: var(--ok-border);
+  color: var(--ok-text);
+}
+
+.pill--warn {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+  color: var(--warn-text);
+}
+
+.pill--err {
+  background: var(--err-bg);
+  border-color: var(--err-border);
+  color: var(--err-text);
+}
+
+.pill--muted {
+  background: var(--muted-bg);
+  border-color: var(--muted-border);
+  color: var(--muted-text);
+}
+
+
 .store {
   display: flex;
   align-items: center;
@@ -129,8 +176,15 @@ button:hover {
   object-fit: contain;
 }
 
-.warn { color: #b40; font-weight: 600; }
-.ok   { color: #0a6; font-weight: 600; }
+.warn {
+  color: #b40;
+  font-weight: 600;
+}
+
+.ok {
+  color: #0a6;
+  font-weight: 600;
+}
 
 .line {
   height: 1px;
@@ -138,8 +192,13 @@ button:hover {
   margin: 12px 0;
 }
 
-.right { margin-left: auto; }
-.small { font-size: 12px; }
+.right {
+  margin-left: auto;
+}
+
+.small {
+  font-size: 12px;
+}
 
 .kbd {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

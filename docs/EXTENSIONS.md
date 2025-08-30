@@ -61,4 +61,4 @@ class MyLgsProvider {
 }
 ```
 
-See [Make Your Own Extension](./EXTENSION_GUIDE.md) for steps on how to make and use your own.
+See [Make Your Own Extension](./guide-steps/README.md) for steps on how to make and use your own.
