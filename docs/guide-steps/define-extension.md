@@ -28,7 +28,7 @@ Your manifest would look something like this:
     },
     "externally_connectable": {
         "ids": [
-            "<ScryHubCoreExtensionID>"
+            "edmpemfmkcgplhmgbnhchnfmmfaefdli"
         ]
     }
 }

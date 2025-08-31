@@ -3,6 +3,7 @@
   "name": "ScryHub",
   "version": "0.1.0",
   "description": "Hub that adds local game store buttons to Scryfall via provider extensions.",
+  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAurglNxNQmdyY1H777Ho9nFN/p2pyVQxm57339FIxT1622DchEMOpA1qubU1rnaZf+T/Hl6AhJ4F6AsJZqG2ofu3D3tztnY+CNVmJe/TYKyVJdg+V1ctHgpqGgHTj1HLkv4A3AJChn40Ute3obVbiDxPS2NUsYthk5MCeNP7roundWf45en0/haY3uZ7vOPk/CbpwLB/e/geC4vZvzfLOFbPkXOZcS1C+OnxaT1dTcJULHf0CS7uJFeBfJgl3A1Mf58XTHRF3rENofMrb0km7lwcGl7w6y8s4NOuJMJfv28D0NpIvsAGtYoo8y6Lnbqunxroj8KHA1Z54LtxacJeyKQIDAQAB",
   "permissions": [
     "storage"
   ],

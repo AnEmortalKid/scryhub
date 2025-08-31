@@ -27,7 +27,7 @@ if (!manifest.version) throw new Error('manifest.json is missing "version"');
 await fs.rm(releaseDir, { recursive: true, force: true });
 await fs.mkdir(releaseDir, { recursive: true });
 
-const outZip = path.join(releaseDir, `scryhub-core-${manifest.version}.zip`);
+const outZip = path.join(releaseDir, `scryhub-${manifest.version}.zip`);
 
 await new Promise((resolve, reject) => {
   const output = createWriteStream(outZip);
