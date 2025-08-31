@@ -1,13 +1,14 @@
-import { SemVer } from "@scryhub/protocol";
+import { PROTOCOL_VERSION, SemVer } from "@scryhub/protocol";
 import { checkProtocolFromExtension } from "../messaging/library";
 import { CompatibilityCache, LGSLibrary } from "../stores"
 import { getLibraryProtocol } from "../messaging/internal";
 
-// TODO swap to libraries
-export const LIBRARIES_KEY = "scryhub.providers";
+/**
+ * Storage key for our stored libraries
+ */
+export const LIBRARIES_KEY = "scryhub.libraries";
 
-// TODO dynamic resolve
-export const MY_PROTOCOL_VERSION: SemVer = "0.1.0";
+export const MY_PROTOCOL_VERSION : SemVer = PROTOCOL_VERSION;
 
 // 5 mins
 export const COMPATIBILITY_TTL = 5 * 60 * 1000;

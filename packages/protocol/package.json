@@ -11,6 +11,7 @@
     "prepare": "npm run build"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
     "tslib": "^2.6.2"
   },
   "repository": {
