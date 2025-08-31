@@ -11,6 +11,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/chrome": "0.1.4",
+    "archiver": "^7.0.1",
     "rimraf": "^6.0.1",
     "rollup": "^4.46.2",
     "tslib": "^2.6.2"
@@ -20,6 +21,7 @@
     "build:code": "rollup -c",
     "build:assets": "node -e \"require('fs').cpSync('public','build',{recursive:true})\"",
     "build": "npm run clean && npm run build:code && npm run build:assets",
+    "package": "npm run build && node scripts/zip-build.mjs",
     "watch": "rollup -c -w"
   }
 }

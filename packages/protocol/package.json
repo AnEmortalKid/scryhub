@@ -1,6 +1,9 @@
 {
   "name": "@scryhub/protocol",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "TypeScript types and RPC message contracts for ScryHub core to communicate with LGSLibrary extensions.",
   "license": "MIT",
   "main": "dist/index.js",

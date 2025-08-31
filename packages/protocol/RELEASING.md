@@ -19,7 +19,7 @@ npm test --if-present
 
 Publish just the `protocol` package
 
-```
+```bash
 cd packages/protocol
 npm publish --access public
 cd -
@@ -27,7 +27,7 @@ cd -
 
 Save our tags and branch
 
-```
+```bash
 git push origin main
 git push origin protocol-vX.Y.Z
 ```
