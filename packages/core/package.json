@@ -1,10 +1,10 @@
 {
   "name": "@scryhub/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@scryhub/protocol": "0.1.0"
+    "@scryhub/protocol": "0.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
