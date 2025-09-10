@@ -2,7 +2,7 @@
   "name": "scryhub",
   "private": true,
   "workspaces": [
-    "packages/core", "packages/protocol"
+    "packages/core", "packages/protocol", "packages/library-starter-pack"
   ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -14,10 +14,12 @@
     "typescript": "^5.5.4"
   },
   "scripts": {
-    "build": "npm run build -w @scryhub/protocol && npm run build -w @scryhub/core",
+    "build": "npm run build -w @scryhub/protocol && npm run build -w @scryhub/core && npm run build -w @scryhub/library-starter-pack",
     "build:core": "npm run build -w @scryhub/core",
     "build:core-assets": "npm run build:assets -w @scryhub/core",
+    "build:starter-pack": "npm run build -w @scryhub/library-starter-pack",
     "package:core": "npm run package -w @scryhub/core",
+    "package:starter-pack": "npm run package -w @scryhub/library-starter-pack",
     "clean": "rimraf packages/*/dist packages/*/build"
   }
 }

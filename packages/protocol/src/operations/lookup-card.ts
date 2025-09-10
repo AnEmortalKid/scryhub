@@ -47,6 +47,11 @@ export type CardLookupDescriptor = {
     setCode?: string;
 
     /**
+     * The name of the set if it could be found
+     */
+    setName?: string;
+
+    /**
      * The collector number for the card within the set if we could find it
      * Ex: "404" or "404a"
      */

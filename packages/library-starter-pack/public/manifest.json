@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "ScryHub: Starter Pack",
+  "version": "0.1.0",
+  "description": "ScryHub provider that contains a set of regionally diverse stores to get you going.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://starcitygames.com/*"
+  ],
+  "externally_connectable": {
+    "ids": [
+      "edmpemfmkcgplhmgbnhchnfmmfaefdli"
+    ]
+  }
+}

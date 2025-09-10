@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.0 - 2025-09
+- Add: `setName` potentially provided when looking up cards
+
 ## 0.1.1 - 2025-08-27
 - Fix: compatibility check edge case with `minCoreVersion`.
 - Docs: add RELEASING.md.

@@ -3,7 +3,7 @@ const MSG_GET_PROTOCOL = "scryhub.library.protocolCheck";
 const MSG_LIST_STORES = "scryhub.library.listStores";
 const MSG_LOOKUP_CARD = "scryhub.library.lookupCard";
 
-const protocolVersion = "0.1.0";
+const protocolVersion = "0.2.0";
 
 const sampleStore = {
     key: 'sample-lgs-provider',

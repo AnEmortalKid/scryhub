@@ -6,6 +6,7 @@ import { CardLookupDescriptor, FinishTreatment } from "@scryhub/protocol";
  */
 export function getCardDescriptor(): CardLookupDescriptor {
     const cardName = getDisplayedCardName();
+    const setName = getSetNameFromTable();
     const setCodeAndCollector = getSetAndCollectorFromTable();
     const titleAndBorder = getTitleAndBorder();
     const finishTreatments = getTreatmentsFromDetails();
@@ -15,6 +16,7 @@ export function getCardDescriptor(): CardLookupDescriptor {
         name: cardName,
         finishTreatments,
         // the optional fields here
+        setName,
         ...setCodeAndCollector,
         ...titleAndBorder,
     };
@@ -68,7 +70,30 @@ function getTitleAndBorder(): TitleAndBorder {
 }
 
 /**
- * Reads the set code and collector number from the printss-table, currently selected row
+ * Reads through the prints-current-set-name span and tries to parse the non code
+ */
+function getSetNameFromTable(): string | undefined {
+    const currentSetNameSpan = document.querySelector<HTMLSpanElement>(
+        '.prints-current-set-name'
+    );
+
+    if (!currentSetNameSpan) {
+        return undefined;
+    }
+
+    const rawText = currentSetNameSpan.textContent?.trim();
+    if (!rawText) {
+        return undefined;
+    }
+
+    // Remove the trailing (CODE) part if it exists
+    const nameOnly = rawText.replace(/\s*\([A-Z0-9]+\)\s*$/, '');
+
+    return nameOnly || undefined;
+}
+
+/**
+ * Reads the set code and collector number from the prints-table, currently selected row
  * Parses through the card link, example: `<a href="/card/fin/404/yuna-hope-of-spira">`
  * 
  * @returns the setCode and collector number

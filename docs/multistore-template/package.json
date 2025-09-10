@@ -1,0 +1,28 @@
+{
+  "name": "scryhub-multi-store-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ScryHub Multistore Template: A template to handle multiple stores.",
+  "type": "module",
+  "dependencies": {
+    "@scryhub/protocol": "0.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/chrome": "^0.1.4",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.18.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:code": "rollup -c",
+    "build:assets": "node -e \"require('fs').cpSync('public','build',{recursive:true})\"",
+    "build": "npm run clean && npm run build:code && npm run build:assets",
+    "package": "npm run build && node scripts/zip-build.mjs",
+    "watch": "rollup -c -w"
+  }
+}

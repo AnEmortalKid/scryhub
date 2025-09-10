@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "ScryHub: MultiStore Template",
+  "version": "0.1.0",
+  "description": "Template for handling multiple stores.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://website1.com/*",
+    "https://website2.com/*"
+  ],
+  "externally_connectable": {
+    "ids": [
+      "edmpemfmkcgplhmgbnhchnfmmfaefdli"
+    ]
+  }
+}

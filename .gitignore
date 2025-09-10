@@ -7,3 +7,5 @@ build/
 
 # stash for chrome extension zip
 release/
+
+*.code-workspace
